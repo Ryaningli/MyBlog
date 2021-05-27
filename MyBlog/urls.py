@@ -23,4 +23,5 @@ urlpatterns = [
     path('api/user', api.user_manage),
     path('api/login', api.login),
     path('api/logout', api.logout),
+    path('api/test', api.test),
 ]

@@ -1,18 +1,21 @@
 from django.contrib import auth
 from django.db import IntegrityError
 from django.forms import model_to_dict
+from django.http import JsonResponse
 from django.views.decorators.http import require_http_methods
-from App.data_factory import response, req2dict
+from schema import *
+from App.data_factory import response
 from App.error import RequestParamError
 from App.models import User
 from App.param_test import ParamCheck
+from App.validator import validator
 
 
 # 注册接口
 @require_http_methods(['GET', 'POST'])
 def user_manage(request):
     if request.method == 'POST':
-        data = req2dict(request)
+        data = request.body
         checker = ParamCheck(data)
 
         try:
@@ -51,7 +54,7 @@ def user_manage(request):
 @require_http_methods(['POST'])
 def login(request):
     if request.method == 'POST':
-        data = req2dict(request)
+        data = request.body
         checker = ParamCheck(data)
         response_data = None
         try:
@@ -84,6 +87,12 @@ def login(request):
 @require_http_methods(['GET'])
 def logout(request):
     if request.method == 'GET':
-        result = auth.logout(request)
-        print(result)
+        auth.logout(request)
         return response()
+
+
+# 测试接口
+@validator({'username': And(lambda x: 4 <= len(x) <= 10)})
+def test(request):
+    a = request.body
+    return response(code=0, msg='测试返回成功', data=a)

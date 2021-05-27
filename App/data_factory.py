@@ -24,12 +24,6 @@ class DotDict(dict):
     __delattr__ = dict.__delitem__
 
 
-# 请求体转dict
-def req2dict(request):
-    d = json.loads(request.body)
-    return DotDict(d)
-
-
 # json返回体不使用ensure_ascii
 class JR(JsonResponse):
     def __init__(self, data, encoder=DjangoJSONEncoder, safe=True, json_dumps_params=None, **kwargs):

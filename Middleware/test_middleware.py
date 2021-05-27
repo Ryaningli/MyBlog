@@ -14,8 +14,7 @@ class SimpleMiddleware:
         print('------------------------------请求----------------------------')
         response = self.get_response(request)
         print('------------------------------返回----------------------------')
-        print(response)
-        print('------------------------------请求----------------------------')
+        print('------------------------------返回----------------------------')
 
         # Code to be executed for each request/response after
         # the view is called.
